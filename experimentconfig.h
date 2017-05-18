@@ -17,9 +17,21 @@ public:
     void setSerialPort(QSerialPort *SP);
     ~experimentConfig();
 
+private slots:
+    void readData();
+
+    void on_pushButton_4_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_SampleRate_editingFinished();
+
+    void on_SampleNumber_editingFinished();
+
 private:
     Ui::experimentConfig *ui;
     QSerialPort *serial;
+    int syncStage;
 };
 
 #endif // EXPERIMENTCONFIG_H

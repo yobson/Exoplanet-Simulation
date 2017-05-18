@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
+  serial = NULL;
 }
 
 MainWindow::~MainWindow()
@@ -31,6 +32,6 @@ void MainWindow::on_actionSerial_Config_triggered()
 void MainWindow::on_actionExperiment_Settings_triggered()
 {
     experimentConfig *win = new experimentConfig(this);
-    win->setSerialPort(serial);
     win->show();
+    win->setSerialPort(serial);
 }
