@@ -21,16 +21,16 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLineEdit" name="SampleRate">
+      <widget class="QLabel" name="label">
        <property name="text">
-        <string>0.1</string>
+        <string>Sample Rate</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QLineEdit" name="SampleRate">
        <property name="text">
-        <string>Set Sample Rate</string>
+        <string>0.1</string>
        </property>
       </widget>
      </item>
@@ -39,16 +39,16 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLineEdit" name="SampleNumber">
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>100000</string>
+        <string>Number of Samples</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QLineEdit" name="SampleNumber">
        <property name="text">
-        <string>Set Number of Samples</string>
+        <string>100000</string>
        </property>
       </widget>
      </item>

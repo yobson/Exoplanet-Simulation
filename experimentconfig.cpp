@@ -1,6 +1,7 @@
 #include "experimentconfig.h"
 #include "ui_experimentconfig.h"
 #include <QMessageBox>
+#include <QtCore>
 
 experimentConfig::experimentConfig(QWidget *parent) :
     QDialog(parent),
@@ -20,18 +21,21 @@ void experimentConfig::setSerialPort(QSerialPort *SP)
         this->close();
     } else {
         SP->clear();
+        connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     }
 
 }
 
 experimentConfig::~experimentConfig()
 {
+    disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     delete ui;
 }
 
 void experimentConfig::readData()
 {
     QString data = QString::fromLatin1(serial->readAll());
+    qDebug() << "Got reply: " << data;
     if (data == "SReady") {
         syncStage++;
         on_pushButton_3_clicked();

@@ -52,21 +52,22 @@ void SerialSetup::on_pushButton_3_clicked()
 {
   if (handshake) {
       on_pushButton_4_clicked();
-  }
-  SP->close();
-  const QSerialPortInfo port = QSerialPortInfo::availablePorts().at(ui->comboBox->currentIndex());
-  qDebug() << "Attempting to connect to " << port.portName();
-  SP->setPort(port);
-  SP->setBaudRate(QSerialPort::Baud115200);
-  SP->setDataBits(QSerialPort::Data8);
-  SP->setFlowControl(QSerialPort::NoFlowControl);
-  SP->setStopBits(QSerialPort::OneStop);
-  if (SP->open(QIODevice::ReadWrite)) {
-      qDebug() << "Success!!";
-  }
-  else {
-      qDebug() <<"Error!";
-      return;
+  } else {
+      SP->close();
+      const QSerialPortInfo port = QSerialPortInfo::availablePorts().at(ui->comboBox->currentIndex());
+      qDebug() << "Attempting to connect to " << port.portName();
+      SP->setPort(port);
+      SP->setBaudRate(QSerialPort::Baud115200);
+      SP->setDataBits(QSerialPort::Data8);
+      SP->setFlowControl(QSerialPort::NoFlowControl);
+      SP->setStopBits(QSerialPort::OneStop);
+      if (SP->open(QIODevice::ReadWrite)) {
+          qDebug() << "Success!!";
+      }
+      else {
+          qDebug() <<"Error!";
+          return;
+      }
   }
 }
 
