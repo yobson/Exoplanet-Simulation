@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>766</width>
+    <width>705</width>
     <height>450</height>
    </rect>
   </property>
@@ -32,6 +32,7 @@
    </attribute>
    <addaction name="actionSerial_Config"/>
    <addaction name="actionExperiment_Settings"/>
+   <addaction name="actionStart_Experiment"/>
   </widget>
   <action name="actionSerial_Config">
    <property name="icon">
@@ -62,6 +63,22 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionStart_Experiment">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/Resources/play-xxl.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Start Experiment</string>
+   </property>
+   <property name="toolTip">
+    <string>Start getting data</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Space</string>
    </property>
   </action>
  </widget>

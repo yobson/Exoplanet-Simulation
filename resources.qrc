@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>Resources/rs_232_female_filled1600.png</file>
+        <file>Resources/20151111_5642dcb5b6573.png</file>
+        <file>Resources/play-xxl.png</file>
+    </qresource>
+</RCC>

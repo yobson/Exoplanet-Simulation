@@ -33,3 +33,8 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     serialsetup.ui
+
+DISTFILES +=
+
+RESOURCES += \
+    resources.qrc
