@@ -26,13 +26,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    serialsetup.cpp
+    serialsetup.cpp \
+    experimentconfig.cpp
 
 HEADERS  += mainwindow.h \
-    serialsetup.h
+    serialsetup.h \
+    experimentconfig.h
 
 FORMS    += mainwindow.ui \
-    serialsetup.ui
+    serialsetup.ui \
+    experimentconfig.ui
 
 DISTFILES +=
 

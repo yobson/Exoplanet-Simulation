@@ -21,6 +21,8 @@ private slots:
 
   void on_actionSerial_Config_triggered();
 
+  void on_actionExperiment_Settings_triggered();
+
 private:
   Ui::MainWindow *ui;
   QSerialPort *serial;
