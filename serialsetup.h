@@ -34,10 +34,7 @@ private slots:
 private:
   Ui::SerialSetup *ui;
   QSerialPort *SP;
-
-  QString getData();
-  QByteArray data;
-  int dataSize;
+  bool handshake;
 
 };
 

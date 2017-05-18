@@ -12,6 +12,7 @@ SerialSetup::SerialSetup(QWidget *parent) :
   this->on_pushButton_clicked();
   SP = new QSerialPort();
   connect(SP, SIGNAL(readyRead()), this, SLOT(readData()));
+  handshake = false;
 }
 
 SerialSetup::~SerialSetup()
@@ -29,12 +30,29 @@ void SerialSetup::on_pushButton_clicked()
 
 void SerialSetup::readData()
 {
-  data.append(SP->readAll());
-  dataSize = data.count();
-  qDebug() << data;
+  QByteArray data = SP->readAll();
+  //qDebug() << "Recived " << data;
+  if (QString::fromLatin1(data) == "Ready\n") {
+      SP->write("A");
+      qDebug() << "Attempting Handshake";
+  }
+  else if (QString::fromLatin1(data) == "A") {
+      SP->write("ok");
+      qDebug() << "Got Reply sending ok";
+  }
+  else if (QString::fromLatin1(data) == "Connected\n") {
+      qDebug() << "Handshake complete!";
+      emit (setSerialGlobal(SP));
+      handshake = true;
+      ui->pushButton_3->setText("Okay");
+  }
+  else { qDebug() << "Unmatched Data read"; }
 }
 void SerialSetup::on_pushButton_3_clicked()
 {
+  if (handshake) {
+      on_pushButton_4_clicked();
+  }
   SP->close();
   const QSerialPortInfo port = QSerialPortInfo::availablePorts().at(ui->comboBox->currentIndex());
   qDebug() << "Attempting to connect to " << port.portName();
@@ -50,24 +68,11 @@ void SerialSetup::on_pushButton_3_clicked()
       qDebug() <<"Error!";
       return;
   }
-  qDebug() << "Attempting Handshake: ";
-  getData();
-  SP->write("a");
-  //qDebug() << getData();
-  SP->write("ok");
-  //qDebug() << getData();
 }
 
-QString SerialSetup::getData()
-{
-  //while (!dataSize) ;
-  QString s = QString::fromLatin1(data);
-  data.clear();
-  dataSize = 0;
-  return s;
-}
 
 void SerialSetup::on_pushButton_4_clicked()
 {
-  SP->close();
+  disconnect(SP, SIGNAL(readyRead()), this, SLOT(readData()));
+  this->close();
 }

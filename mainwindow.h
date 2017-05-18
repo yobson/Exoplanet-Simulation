@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtSerialPort/QSerialPort>
 
 namespace Ui {
   class MainWindow;
@@ -16,10 +17,13 @@ public:
   ~MainWindow();
 
 private slots:
-  void on_pushButton_clicked();
+  void getSerialPort(QSerialPort *port);
+
+  void on_actionSerial_Config_triggered();
 
 private:
   Ui::MainWindow *ui;
+  QSerialPort *serial;
 };
 
 #endif // MAINWINDOW_H
