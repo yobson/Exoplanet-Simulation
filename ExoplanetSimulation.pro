@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT       += serialport
+QMAKE_CFLAGS += -std=c99
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,11 +28,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     serialsetup.cpp \
-    experimentconfig.cpp
+    experimentconfig.cpp \
+    cfunctions.c
 
 HEADERS  += mainwindow.h \
     serialsetup.h \
-    experimentconfig.h
+    experimentconfig.h \
+    cfunctions.h
 
 FORMS    += mainwindow.ui \
     serialsetup.ui \
