@@ -63,18 +63,22 @@ void experimentConfig::on_pushButton_3_clicked()
         serial->write(ui->SampleNumber->text().toLatin1());
         break;
     case 3:
-        qDebug() << "Sync successful!";
-        ui->pushButton_3->setText("Done");
-        syncStage = 4;
+        qDebug() << "Syncing number of samples";
+        serial->write(ui->voltage->text().toLatin1());
         break;
     case 4:
+        qDebug() << "Sync successful!";
+        ui->pushButton_3->setText("Done");
+        syncStage = 5;
+        break;
+    case 5:
         this->close();
     }
 }
 
 void experimentConfig::on_SampleRate_editingFinished()
 {
-    if (syncStage == 4) {
+    if (syncStage == 5) {
         ui->pushButton_3->setText("Sync Changes");
         syncStage = 0;
     }
@@ -82,7 +86,7 @@ void experimentConfig::on_SampleRate_editingFinished()
 
 void experimentConfig::on_SampleNumber_editingFinished()
 {
-    if (syncStage == 4) {
+    if (syncStage == 5) {
         ui->pushButton_3->setText("Sync Changes");
         syncStage = 0;
     }
