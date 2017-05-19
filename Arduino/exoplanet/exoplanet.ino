@@ -11,6 +11,7 @@ int settingsPhase;
 
 float sampleRate;
 float sampleNumber;
+float referenceVoltage;
 
 // Code
 void setup() {
@@ -87,8 +88,10 @@ void serialSettings(int i) {
       break;
     case 1:
       sampleNumber = Serial.parseFloat();
-      readCB = &serialSelector;
       break;
+    case 2:
+      referenceVoltage = Serial.parseFloat();
+      readCB = &serialSelector;
   }
   Serial.print("SReady");
   settingsPhase++;
