@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include <QtCore>
 
+const int finalStage = 5;
+
 experimentConfig::experimentConfig(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::experimentConfig)
@@ -63,30 +65,38 @@ void experimentConfig::on_pushButton_3_clicked()
         serial->write(ui->SampleNumber->text().toLatin1());
         break;
     case 3:
-        qDebug() << "Syncing number of samples";
+        qDebug() << "Syncing reference voltage";
         serial->write(ui->voltage->text().toLatin1());
         break;
-    case 4:
+    case finalStage - 1:
         qDebug() << "Sync successful!";
         ui->pushButton_3->setText("Done");
-        syncStage = 5;
+        syncStage = finalStage;
         break;
     case 5:
         this->close();
     }
 }
 
-void experimentConfig::on_SampleRate_editingFinished()
+void experimentConfig::on_SampleRate_textChanged(const QString &arg1)
 {
-    if (syncStage == 5) {
+    if (syncStage == finalStage) {
         ui->pushButton_3->setText("Sync Changes");
         syncStage = 0;
     }
 }
 
-void experimentConfig::on_SampleNumber_editingFinished()
+void experimentConfig::on_SampleNumber_textChanged(const QString &arg1)
 {
-    if (syncStage == 5) {
+    if (syncStage == finalStage) {
+        ui->pushButton_3->setText("Sync Changes");
+        syncStage = 0;
+    }
+}
+
+void experimentConfig::on_voltage_textChanged(const QString &arg1)
+{
+    if (syncStage == finalStage) {
         ui->pushButton_3->setText("Sync Changes");
         syncStage = 0;
     }

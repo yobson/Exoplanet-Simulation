@@ -11,7 +11,3 @@ between the computer and controller would make wiring far easier, but the softwa
 cope with any type of arduino. Currently it assumes a 115200 baud rate but I plan to
 remove this assumption soon so you don't have to recompile just to use it with another
 arduino.
-
-## Some things to note
-The FFT code uses c99 which means that only gcc and clang are supported. If you want to
-build on windows, use MinGW please. If you want to know, it uses `<complex.h>`

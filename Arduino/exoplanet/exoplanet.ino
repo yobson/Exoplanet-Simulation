@@ -3,6 +3,9 @@ char *serialGetData(int);
 void serialHandshake(int);
 void serialSelector(int);
 void serialSettings(int);
+void finiteGetSendData();
+void finiteTestRate();
+void infiniteGetSendData();
 
 // Variables
 void (*readCB)(int);
@@ -12,6 +15,7 @@ int settingsPhase;
 float sampleRate;
 float sampleNumber;
 float referenceVoltage;
+unsigned long t, sampleLength;
 
 // Code
 void setup() {
@@ -19,8 +23,8 @@ void setup() {
   Serial.print("Ready\n");
   handshakePhase = 0;
   readCB = &serialHandshake;
-  sampleRate = 0.1;
-  sampleNumber = 100000;
+  sampleRate = 10;
+  sampleNumber = 256;
 }
 
 void loop() {
@@ -74,6 +78,12 @@ void serialSelector(int i) {
     readCB = &serialHandshake;
     handshakePhase = 0;
   }
+  else if (!strncmp(serialData, "Start", 5)) {
+    double sampleLengthDb = 1000 / sampleRate;
+    sampleLength = (unsigned long)sampleLengthDb;
+    if (sampleNumber) finiteGetSendData();
+    else infiniteGetSendData();
+  }
   else {
     Serial.print("Unrecognised option ");
     Serial.print(serialData);
@@ -95,5 +105,26 @@ void serialSettings(int i) {
   }
   Serial.print("SReady");
   settingsPhase++;
+}
+
+void finiteGetSendData() {
+  for (int i = 0; i < sampleNumber; i++) {
+    t = millis();
+    double data = sin(i);
+    Serial.print(data);
+    delay(sampleLength - (millis() - t));
+  }
+}
+
+void infiniteGetSendData() {
+  int i = 0;
+  while (true) {
+    if (Serial.available()) break;
+    t = millis();
+    double data = sin(i);
+    Serial.print(data);
+    i++;
+    delay(sampleLength - (millis() - t));
+  }
 }
 

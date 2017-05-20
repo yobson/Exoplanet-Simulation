@@ -24,9 +24,11 @@ private slots:
 
     void on_pushButton_3_clicked();
 
-    void on_SampleRate_editingFinished();
+    void on_SampleRate_textChanged(const QString &arg1);
 
-    void on_SampleNumber_editingFinished();
+    void on_SampleNumber_textChanged(const QString &arg1);
+
+    void on_voltage_textChanged(const QString &arg1);
 
 private:
     Ui::experimentConfig *ui;

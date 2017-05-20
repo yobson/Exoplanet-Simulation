@@ -63,6 +63,7 @@ void SerialSetup::on_pushButton_3_clicked()
       SP->setStopBits(QSerialPort::OneStop);
       if (SP->open(QIODevice::ReadWrite)) {
           qDebug() << "Success!!";
+          ui->pushButton_3->setText("Connecting");
       }
       else {
           qDebug() <<"Error!";
