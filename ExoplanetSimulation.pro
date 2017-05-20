@@ -6,7 +6,7 @@
 
 QT       += core gui
 QT       += serialport
-QMAKE_CFLAGS += -std=c99
+QT       += charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
