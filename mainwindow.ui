@@ -34,115 +34,136 @@
        <property name="title">
         <string>Data</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Sun Mass</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="sunMass">
-            <property name="text">
-             <string>1.989</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>X 10^</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="sunE">
-            <property name="text">
-             <string>30</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="sunUnits">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <property name="text">
-              <string>kg</string>
-             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Sun Mass</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="sunMass">
+                <property name="text">
+                 <string>1.989</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>X 10^</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="sunE">
+                <property name="text">
+                 <string>30</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="sunUnits">
+                <item>
+                 <property name="text">
+                  <string>kg</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Suns</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
-             <property name="text">
-              <string>Suns</string>
-             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>1 sec = </string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="time">
+                <property name="text">
+                 <string>3.154</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>X 10^</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="timeE">
+                <property name="text">
+                 <string>7</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="TimeUnits">
+                <item>
+                 <property name="text">
+                  <string>Seconds</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Hours</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Days</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Years</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
             </item>
+            <item>
+             <widget class="QPushButton" name="StartButton">
+              <property name="text">
+               <string>Start</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="recalc">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Recalculate</string>
+            </property>
            </widget>
           </item>
          </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>1 sec = </string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineEdit">
-            <property name="text">
-             <string>3.154</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>X 10^</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineEdit_2">
-            <property name="text">
-             <string>7</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox">
-            <item>
-             <property name="text">
-              <string>Seconds</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Hours</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Days</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Years</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QPushButton" name="StartButton">
-          <property name="text">
-           <string>Start</string>
-          </property>
-         </widget>
         </item>
         <item>
          <widget class="QPlainTextEdit" name="Results">

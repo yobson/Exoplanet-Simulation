@@ -34,6 +34,21 @@ experimentConfig::~experimentConfig()
     delete ui;
 }
 
+void experimentConfig::defSN(int SN)
+{
+    ui->SampleNumber->setText(QString("%0").arg(SN));
+}
+
+void experimentConfig::defSR(double sr)
+{
+    ui->SampleRate->setText(QString("%0").arg(sr));
+}
+
+void experimentConfig::defRV(double rv)
+{
+    ui->voltage->setText(QString("%0").arg(rv));
+}
+
 void experimentConfig::readData()
 {
     QString data = QString::fromLatin1(serial->readAll());
@@ -47,6 +62,7 @@ void experimentConfig::readData()
 void experimentConfig::on_pushButton_4_clicked()
 {
     this->close();
+    delete this;
 }
 
 void experimentConfig::on_pushButton_3_clicked()
@@ -59,6 +75,7 @@ void experimentConfig::on_pushButton_3_clicked()
     case 1:
         qDebug() << "Syncing syncing sample rate";
         serial->write(ui->SampleRate->text().toLatin1());
+        emit(setSR(ui->SampleRate->text().toDouble()));
         break;
     case 2:
         qDebug() << "Syncing number of samples";
@@ -73,6 +90,7 @@ void experimentConfig::on_pushButton_3_clicked()
     case 3:
         qDebug() << "Syncing reference voltage";
         serial->write(ui->voltage->text().toLatin1());
+        emit(setRV(ui->voltage->text().toDouble()));
         break;
     case finalStage - 1:
         qDebug() << "Sync successful!";

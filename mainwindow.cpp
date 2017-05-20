@@ -5,6 +5,9 @@
 #include <QtCore>
 #include <fft.hpp>
 #include <QMessageBox>
+#include <math.h>
+
+#define PI 3.14159265358979323846
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -78,6 +81,11 @@ void MainWindow::on_actionExperiment_Settings_triggered()
     connect(win, SIGNAL(indef()), this, SLOT(setIndefiniateLog()));
     connect(win, SIGNAL(def()), this, SLOT(setDefiniateLog()));
     connect(win, SIGNAL(setSN(int)), this, SLOT(setSampleNumber(int)));
+    connect(win, SIGNAL(setSR(double)), this, SLOT(setSampleRate(double)));
+    connect(win, SIGNAL(setRV(double)), this, SLOT(setReferenceVoltage(double)));
+    win->defRV(referenceVoltage);
+    win->defSN(numberOfSamples);
+    win->defSR(sampleRate);
     win->show();
     win->setSerialPort(serial);
 }
@@ -128,6 +136,12 @@ void MainWindow::setSampleRate(double sr)
     sampleRate = sr;
 }
 
+void MainWindow::setReferenceVoltage(double rv)
+{
+    qDebug() << "Setting Reference Voltage to " << rv;
+    referenceVoltage = rv;
+}
+
 void MainWindow::log()
 {
     logValues[logPointer] = QString::fromLatin1(serial->readAll()).toDouble();
@@ -146,6 +160,7 @@ void MainWindow::on_actionStart_Experiment_triggered()
 
 void MainWindow::finishedLogging()
 {
+    ui->StartButton->setText("Start");
     qDebug() << "Adding to raw graph";
     rawChart->removeAllSeries();
     rawLine->clear();
@@ -157,8 +172,8 @@ void MainWindow::finishedLogging()
         rawLine->append(interval * i, logValues[i]);
         if (logValues[i] > highest) highest = logValues[i];
     }
-    rawChart->createDefaultAxes();
     rawChart->addSeries(rawLine);
+    rawChart->createDefaultAxes(); 
     qDebug() << "FFTing";
     im_in = new double[numberOfSamples];
     re_out = new double[numberOfSamples];
@@ -181,23 +196,42 @@ void MainWindow::finishedLogging()
 
 void MainWindow::analyse()
 {
+    typedef struct {
+        double magnitude;
+        double freq;
+    } peak;
 
     double threshold, sum = 0;
     int count = 0;
-    double *peaks;
+    double interval = sampleRate / numberOfSamples;
+    peak *peaks;
+
     for (int i = 0; i < numberOfSamples/2; i++) {
         sum += out[i];
     }
     threshold = 3 * sum / (numberOfSamples/2);
-    peaks = new double[numberOfSamples/2];
+    peaks = new peak[numberOfSamples/2];
     for (int i = 1; i < numberOfSamples/2; i++) {
         if (out[i] > threshold && out[i] > out[i+1] && out[i] > out[i-1]) {
-            peaks[count] = out[i-1];
+            peaks[count].magnitude = out[i];
+            peaks[count].freq = i * interval;
+            qDebug() << "Mag: " << peaks[count].magnitude << "Freq: " << peaks[count].freq;
             count++;
         }
     }
     QString current = ui->Results->toPlainText();
     current.append(QString("\nNumber Of Detected Exoplanets: %0").arg(count));
+    for (int i = 0; i < count; i++) {
+        current.append(QString("\n\nPlanet %0:\n").arg(i));
+        double orbit = ui->time->text().toDouble() * pow(10, ui->timeE->text().toDouble()) * (1/peaks[i].freq);
+        current.append(QString("    Time for orbit: %0 %1\n").arg(orbit).arg(ui->TimeUnits->currentText()));
+    }
     ui->Results->setPlainText(current);
     delete peaks;
+}
+
+void MainWindow::on_recalc_clicked()
+{
+    ui->Results->setPlainText("");
+    analyse();
 }

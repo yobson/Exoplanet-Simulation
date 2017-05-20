@@ -33,9 +33,12 @@ private slots:
   void setDefiniateLog();
   void setSampleNumber(int);
   void setSampleRate(double);
+  void setReferenceVoltage(double);
   void log();
 
   void on_actionStart_Experiment_triggered();
+
+  void on_recalc_clicked();
 
 private:
   Ui::MainWindow *ui;

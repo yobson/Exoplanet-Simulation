@@ -15,7 +15,7 @@ int settingsPhase;
 float sampleRate;
 float sampleNumber;
 float referenceVoltage;
-unsigned long sampleLength;
+unsigned long sampleLength, t;
 
 // Code
 void setup() {
@@ -110,6 +110,7 @@ void serialSettings(int i) {
 void finiteGetSendData() {
   double rad, data;
   for (int i = 0; i < sampleNumber; i++) {
+    t = millis();
     rad = (double)i * 180/PI;
     data = sin(rad) + 0.5*sin(2*rad);
     Serial.print(data);
@@ -120,6 +121,7 @@ void finiteGetSendData() {
 void infiniteGetSendData() {
   int i = 0;
   while (true) {
+    t = millis();
     if (Serial.available()) break;
     double rad = (double)i * 180/PI;
     double data = sin(rad) + 0.5*sin(2*rad);
