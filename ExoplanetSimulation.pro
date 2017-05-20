@@ -28,13 +28,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     serialsetup.cpp \
-    experimentconfig.cpp \
-    fft.cpp
+    experimentconfig.cpp
 
 HEADERS  += mainwindow.h \
     serialsetup.h \
     experimentconfig.h \
-    fft.h \
     fft.hpp
 
 FORMS    += mainwindow.ui \

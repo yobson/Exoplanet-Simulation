@@ -26,8 +26,12 @@ private slots:
   void on_StartButton_clicked();
   void setIndefiniateLog();
   void setDefiniateLog();
-
+  void setSampleNumber(int);
   void log();
+
+  void on_actionStart_Experiment_triggered();
+
+  void on_pushButton_clicked();
 
 private:
   Ui::MainWindow *ui;
@@ -37,6 +41,13 @@ private:
   double *logValues;
   int logPointer;
   int numberOfSamples;
+
+  double *im_in;
+  double *re_out;
+  double *im_out;
+  double *out;
+
+  void finishedLogging();
 };
 
 #endif // MAINWINDOW_H
