@@ -63,6 +63,12 @@ void experimentConfig::on_pushButton_3_clicked()
     case 2:
         qDebug() << "Syncing number of samples";
         serial->write(ui->SampleNumber->text().toLatin1());
+        emit (setSN(ui->SampleNumber->text().toInt()));
+        if (ui->SampleNumber->text() == "0") {
+            emit(indef());
+            emit (setSN(1000000));
+        } else emit (def());
+
         break;
     case 3:
         qDebug() << "Syncing reference voltage";
@@ -75,6 +81,7 @@ void experimentConfig::on_pushButton_3_clicked()
         break;
     case 5:
         this->close();
+        delete this;
     }
 }
 

@@ -23,9 +23,20 @@ private slots:
 
   void on_actionExperiment_Settings_triggered();
 
+  void on_StartButton_clicked();
+  void setIndefiniateLog();
+  void setDefiniateLog();
+
+  void log();
+
 private:
   Ui::MainWindow *ui;
   QSerialPort *serial;
+  bool indefiniateLog;
+  bool inLog;
+  double *logValues;
+  int logPointer;
+  int numberOfSamples;
 };
 
 #endif // MAINWINDOW_H

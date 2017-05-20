@@ -48,7 +48,7 @@
      <item>
       <widget class="QLineEdit" name="SampleNumber">
        <property name="text">
-        <string>100000</string>
+        <string>256</string>
        </property>
       </widget>
      </item>

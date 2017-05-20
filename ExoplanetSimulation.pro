@@ -29,15 +29,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     serialsetup.cpp \
     experimentconfig.cpp \
-    fft.cpp \
-    logger.cpp
+    fft.cpp
 
 HEADERS  += mainwindow.h \
     serialsetup.h \
     experimentconfig.h \
     fft.h \
-    fft.hpp \
-    logger.h
+    fft.hpp
 
 FORMS    += mainwindow.ui \
     serialsetup.ui \

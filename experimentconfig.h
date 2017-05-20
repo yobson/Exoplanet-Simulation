@@ -17,6 +17,11 @@ public:
     void setSerialPort(QSerialPort *SP);
     ~experimentConfig();
 
+signals:
+    void indef();
+    void def();
+    void setSN(int);
+
 private slots:
     void readData();
 
