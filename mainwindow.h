@@ -5,7 +5,7 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChartView>
-#include <QtCharts/QValueAxis>
+#include "fft.hpp"
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -29,8 +29,6 @@ private slots:
   void on_actionExperiment_Settings_triggered();
 
   void on_StartButton_clicked();
-  void setIndefiniateLog();
-  void setDefiniateLog();
   void setSampleNumber(int);
   void setSampleRate(double);
   void setReferenceVoltage(double);
@@ -40,10 +38,11 @@ private slots:
 
   void on_recalc_clicked();
 
+  void on_actionLive_Mode_triggered();
+
 private:
   Ui::MainWindow *ui;
   QSerialPort *serial;
-  bool indefiniateLog;
   bool inLog;
   double *logValues;
   int logPointer;

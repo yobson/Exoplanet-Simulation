@@ -3,9 +3,9 @@
 #include "serialsetup.h"
 #include "experimentconfig.h"
 #include <QtCore>
-#include <fft.hpp>
 #include <QMessageBox>
 #include <math.h>
+#include <live.h>
 
 #define PI 3.14159265358979323846
 
@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   ui->setupUi(this);
   serial = NULL;
-  indefiniateLog = false;
   inLog = false;
   logValues = NULL;
   numberOfSamples = 256;
@@ -78,8 +77,6 @@ void MainWindow::on_actionSerial_Config_triggered()
 void MainWindow::on_actionExperiment_Settings_triggered()
 {
     experimentConfig *win = new experimentConfig(this);
-    connect(win, SIGNAL(indef()), this, SLOT(setIndefiniateLog()));
-    connect(win, SIGNAL(def()), this, SLOT(setDefiniateLog()));
     connect(win, SIGNAL(setSN(int)), this, SLOT(setSampleNumber(int)));
     connect(win, SIGNAL(setSR(double)), this, SLOT(setSampleRate(double)));
     connect(win, SIGNAL(setRV(double)), this, SLOT(setReferenceVoltage(double)));
@@ -99,29 +96,14 @@ void MainWindow::on_StartButton_clicked()
         return;
     }
     if (!inLog) {
-        if (indefiniateLog) {
-            ui->StartButton->setText("Stop");
-        } else ui->StartButton->setText("Getting Data");
+        ui->StartButton->setText("Getting Data");
         logPointer = 0;
         if (logValues != NULL) delete logValues;
         logValues = new double[numberOfSamples];
         connect (serial, SIGNAL(readyRead()), this, SLOT(log()));
-        serial->write("Start");
+        serial->write("Live");
         inLog = true;
-    } else if (indefiniateLog){
-        serial->write("a");
-        ui->StartButton->setText("Stop");
     }
-}
-
-void MainWindow::setIndefiniateLog()
-{
-    indefiniateLog = true;
-}
-
-void MainWindow::setDefiniateLog()
-{
-    indefiniateLog = false;
 }
 
 void MainWindow::setSampleNumber(int sn)
@@ -148,6 +130,7 @@ void MainWindow::log()
     logPointer++;
     if (logPointer == numberOfSamples-1) {
         disconnect (serial, SIGNAL(readyRead()), this, SLOT(log()));
+        serial->write("!");
         inLog = false;
         finishedLogging();
     }
@@ -163,9 +146,9 @@ void MainWindow::finishedLogging()
     ui->StartButton->setText("Start");
     qDebug() << "Adding to raw graph";
     rawChart->removeAllSeries();
-    rawLine->clear();
     fftChart->removeAllSeries();
-    fftLine->clear();
+    fftLine = new QLineSeries();
+    rawLine = new QLineSeries();
     double interval = 1 / sampleRate;
     double highest = 0;
     for (int i = 0; i < numberOfSamples; i++){
@@ -185,7 +168,7 @@ void MainWindow::finishedLogging()
     interval = sampleRate / numberOfSamples;
     highest = 0;
     for (int i = 0; i < numberOfSamples/2; i++) {
-        out[i] = re_out[i] * re_out[i] + im_out[i] * im_out[i];
+        out[i] = sqrt(re_out[i] * re_out[i] + im_out[i] * im_out[i]);
         fftLine->append(interval*i, out[i]);
         if (out[i] > highest) highest = logValues[i];
     }
@@ -209,7 +192,7 @@ void MainWindow::analyse()
     for (int i = 0; i < numberOfSamples/2; i++) {
         sum += out[i];
     }
-    threshold = 3 * sum / (numberOfSamples/2);
+    threshold = 6 * sum / (numberOfSamples/2);
     peaks = new peak[numberOfSamples/2];
     for (int i = 1; i < numberOfSamples/2; i++) {
         if (out[i] > threshold && out[i] > out[i+1] && out[i] > out[i-1]) {
@@ -219,7 +202,7 @@ void MainWindow::analyse()
             count++;
         }
     }
-    QString current = ui->Results->toPlainText();
+    QString current;
     current.append(QString("\nNumber Of Detected Exoplanets: %0").arg(count));
     for (int i = 0; i < count; i++) {
         current.append(QString("\n\nPlanet %0:\n").arg(i));
@@ -234,4 +217,12 @@ void MainWindow::on_recalc_clicked()
 {
     ui->Results->setPlainText("");
     analyse();
+}
+
+void MainWindow::on_actionLive_Mode_triggered()
+{
+    Live *l = new Live();
+    l->setSerial(serial);
+    l->setSampleRate(sampleRate);
+    l->show();
 }

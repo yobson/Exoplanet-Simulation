@@ -4,8 +4,9 @@ void serialHandshake(int);
 void serialSelector(int);
 void serialSettings(int);
 void finiteGetSendData();
-void finiteTestRate();
 void infiniteGetSendData();
+
+void clearSerial();
 
 // Variables
 void (*readCB)(int);
@@ -13,18 +14,17 @@ int handshakePhase;
 int settingsPhase;
 
 float sampleRate;
-float sampleNumber;
 float referenceVoltage;
-unsigned long sampleLength, t;
+unsigned long sampleLength;
 
 // Code
 void setup() {
+  clearSerial();
   Serial.begin(115200);
   Serial.print("Ready\n");
   handshakePhase = 0;
   readCB = &serialHandshake;
   sampleRate = 10;
-  sampleNumber = 256;
 }
 
 void loop() {
@@ -78,11 +78,10 @@ void serialSelector(int i) {
     readCB = &serialHandshake;
     handshakePhase = 0;
   }
-  else if (!strncmp(serialData, "Start", 5)) {
+  else if (!strncmp(serialData, "Live", 4)) {
     double sampleLengthDb = 1000 / sampleRate;
     sampleLength = (unsigned long)sampleLengthDb;
-    if (sampleNumber) finiteGetSendData();
-    else infiniteGetSendData();
+    infiniteGetSendData();
   }
   else {
     Serial.print("Unrecognised option ");
@@ -97,9 +96,6 @@ void serialSettings(int i) {
       sampleRate = Serial.parseFloat();
       break;
     case 1:
-      sampleNumber = Serial.parseFloat();
-      break;
-    case 2:
       referenceVoltage = Serial.parseFloat();
       readCB = &serialSelector;
   }
@@ -107,27 +103,21 @@ void serialSettings(int i) {
   settingsPhase++;
 }
 
-void finiteGetSendData() {
-  double rad, data;
-  for (int i = 0; i < sampleNumber; i++) {
-    t = millis();
-    rad = (double)i * 180/PI;
-    data = sin(rad) + 0.5*sin(2*rad);
-    Serial.print(data);
-    delay(sampleLength);
-  }
-}
-
 void infiniteGetSendData() {
   int i = 0;
   while (true) {
-    t = millis();
     if (Serial.available()) break;
     double rad = (double)i * 180/PI;
     double data = sin(rad) + 0.5*sin(2*rad);
     Serial.print(data);
     i++;
     delay(sampleLength);
+  }
+}
+
+void clearSerial() {
+  while (Serial.available()) {
+    Serial.read();
   }
 }
 

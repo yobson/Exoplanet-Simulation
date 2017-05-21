@@ -59,6 +59,7 @@ unsanitize_fft
 #define fft_private_safe_addrof(ptr,i) ((ptr!=nullptr)?(&(ptr[i])):(nullptr))
 
 // For a 8-sample input, the FFT's last three bins contain "negative" frequencies. (So, the last (size/2)-1 bins.) They are only meaningful for complex inputs.
+inline
 void fft_core(double* input_real, double* input_imag, uint64_t size, uint64_t gap, double* output_real, double* output_imag, bool forwards)
 {
     if(size == 1)
@@ -101,7 +102,7 @@ void fft_core(double* input_real, double* input_imag, uint64_t size, uint64_t ga
 #undef fft_private_safe_addrof
 
 #ifndef FFT_CORE_ONLY
-
+inline
 void normalize_fft(double* input_real, double* input_imag, uint64_t size)
 {
     for(uint64_t i = 0; i < size; i++)
@@ -110,6 +111,7 @@ void normalize_fft(double* input_real, double* input_imag, uint64_t size)
         input_imag[i] /= size;
     }
 }
+inline
 void half_normalize_fft(double* input_real, double* input_imag, uint64_t size)
 {
     for(uint64_t i = 0; i < size; i++)
@@ -118,11 +120,13 @@ void half_normalize_fft(double* input_real, double* input_imag, uint64_t size)
         input_imag[i] /= sqrt(size);
     }
 }
+inline
 void fft(double* input_real, double* input_imag, uint64_t size, double* output_real, double* output_imag)
 {
     fft_core(input_real, input_imag, size, 1, output_real, output_imag, 1);
     half_normalize_fft(output_real, output_imag, size); // allows calling fft() four times to result in the original signal with no amplitude change
 }
+inline
 void ifft(double* input_real, double* input_imag, uint64_t size, double* output_real, double* output_imag)
 {
     fft_core(input_real, input_imag, size, 1, output_real, output_imag, 0);
@@ -132,6 +136,7 @@ void ifft(double* input_real, double* input_imag, uint64_t size, double* output_
 // boost bins that are split into positive (A-handed spin) and negative (B-handed spin) parts
 // only useful if former input signal was not complex, for only needing to look at one bin to get the magnitude
 // FIXME or HELPME: How come the nyquist frequency is quiet in saw waves, but loud in pure signal?
+inline
 void sanitize_fft(double* input_real, double* input_imag, uint64_t size)
 {
     for(uint64_t i = 1; i < size/2; i++)
@@ -143,6 +148,7 @@ void sanitize_fft(double* input_real, double* input_imag, uint64_t size)
     }
 }
 // opposite of above
+inline
 void unsanitize_fft(double* input_real, double* input_imag, uint64_t size)
 {
     for(uint64_t i = 1; i < size/2; i++)

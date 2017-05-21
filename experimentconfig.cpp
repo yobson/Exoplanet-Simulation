@@ -78,15 +78,8 @@ void experimentConfig::on_pushButton_3_clicked()
         emit(setSR(ui->SampleRate->text().toDouble()));
         break;
     case 2:
-        qDebug() << "Syncing number of samples";
-        serial->write(ui->SampleNumber->text().toLatin1());
         emit (setSN(ui->SampleNumber->text().toInt()));
-        if (ui->SampleNumber->text() == "0") {
-            emit(indef());
-            emit (setSN(1000000));
-        } else emit (def());
-
-        break;
+        syncStage++;
     case 3:
         qDebug() << "Syncing reference voltage";
         serial->write(ui->voltage->text().toLatin1());

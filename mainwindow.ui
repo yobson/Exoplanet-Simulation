@@ -250,6 +250,7 @@
    <addaction name="actionSerial_Config"/>
    <addaction name="actionExperiment_Settings"/>
    <addaction name="actionStart_Experiment"/>
+   <addaction name="actionLive_Mode"/>
   </widget>
   <action name="actionSerial_Config">
    <property name="icon">
@@ -296,6 +297,22 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Space</string>
+   </property>
+  </action>
+  <action name="actionLive_Mode">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/Resources/256-256-e887e7e9e3b674806603ae858b092192.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Live Mode</string>
+   </property>
+   <property name="toolTip">
+    <string>FFT the data live</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
    </property>
   </action>
  </widget>
